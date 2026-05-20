@@ -12,9 +12,7 @@ temp = {}
 )
 async def upload(_, message):
 
-    try:
-        _, category, sem, subject = message.text.split(maxsplit=3)
-
+    try:_, category, year, branch, sem, subject = message.text.split(maxsplit=5)
         temp[message.from_user.id] = (
             category,
             sem,
@@ -42,7 +40,7 @@ async def save(_, message):
 
     category, sem, subject = temp[message.from_user.id]
 
-    key = f"{category}_{sem}_{subject}"
+    key = f"{category}_{year}_{branch}_{sem}_{subject.lower()}"
 
     try:
         with open("storage.json") as f:
