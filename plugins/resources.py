@@ -48,8 +48,8 @@ async def resources(_, query):
     except:
         data = {}
 
-    notes_key = f"notes_sem{sem_no}_{subject_name.lower()}"
-    pyq_key = f"pyq_sem{sem_no}_{subject_name.lower()}"
+    notes_key = f"notes_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
+    pyq_key = f"pyq_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
 
     available = (
         notes_key in data or
