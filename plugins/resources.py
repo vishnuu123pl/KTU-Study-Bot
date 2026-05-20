@@ -64,21 +64,21 @@ async def resources(_, query):
             [
                 InlineKeyboardButton(
                     "📚 Notes",
-                    callback_data=f"notes_sem{sem_no}_{subject_name.lower()}"
+                    callback_data=f"notes_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
                 ),
                 InlineKeyboardButton(
                     "📝 PYQ",
-                    callback_data=f"pyq_sem{sem_no}_{subject_name.lower()}"
+                    callback_data=f"pyq_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
                 )
             ],
             [
                 InlineKeyboardButton(
                     "📄 Model",
-                    callback_data=f"model_sem{sem_no}_{subject_name.lower()}"
+                    callback_data=f"model_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
                 ),
                 InlineKeyboardButton(
                     "🎥 Videos",
-                    callback_data=f"video_sem{sem_no}_{subject_name.lower()}"
+                    callback_data=f"video_{year}_{branch}_sem{sem_no}_{subject_name.lower()}"
                 )
             ],
             [
