@@ -12,9 +12,13 @@ temp = {}
 )
 async def upload(_, message):
 
-    try:_, category, year, branch, sem, subject = message.text.split(maxsplit=5)
+    try:
+        _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
+
         temp[message.from_user.id] = (
             category,
+            year,
+            branch,
             sem,
             subject
         )
@@ -25,10 +29,9 @@ async def upload(_, message):
 
     except:
         await message.reply_text(
-            "Usage:\n/upload notes sem1 maths"
+            "Usage:\n/upload notes 2024 cse sem1 maths"
         )
-
-
+        
 @Client.on_message(
     filters.document &
     filters.user(ADMINS)
@@ -38,7 +41,7 @@ async def save(_, message):
     if message.from_user.id not in temp:
         return
 
-    category, sem, subject = temp[message.from_user.id]
+    category, year, branch, sem, subject = temp[message.from_user.id]
 
     key = f"{category}_{year}_{branch}_{sem}_{subject.lower()}"
 
@@ -84,9 +87,9 @@ async def done(_, message):
 async def delete_file(_, message):
 
     try:
-        _, category, sem, subject = message.text.split(maxsplit=3)
+        _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
 
-        key = f"{category}_{sem}_{subject}"
+        key = f"{category}_{year}_{branch}_{sem}_{subject.lower()}"
 
         with open("storage.json") as f:
             data = json.load(f)
@@ -108,7 +111,7 @@ async def delete_file(_, message):
 
     except:
         await message.reply_text(
-            "Usage:\n/delete notes sem1 maths"
+            "Usage:\n/delete notes 2024 cse sem1 maths"
         )
 
 @Client.on_message(
