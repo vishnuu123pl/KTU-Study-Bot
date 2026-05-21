@@ -7,6 +7,11 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 )
 async def scheme(_, query):
 
+    try:
+        await query.answer()
+    except:
+        pass
+
     cat = query.data.split("_",1)[1]
 
     buttons = InlineKeyboardMarkup([
@@ -38,7 +43,4 @@ async def scheme(_, query):
         )
 
     except:
-
         pass
-
-    await query.answer()
