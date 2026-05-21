@@ -10,7 +10,6 @@ async def send_resource(_, query):
     key = query.data.lower()
 
     try:
-
         with open("storage.json") as f:
             data = json.load(f)
 
@@ -23,7 +22,6 @@ async def send_resource(_, query):
             "⚠️ Resource not uploaded yet",
             show_alert=True
         )
-
         return
 
     files = data[key]
@@ -31,8 +29,7 @@ async def send_resource(_, query):
     for file in files:
 
         await query.message.reply_document(
-            file["id"],
-            caption=f"📄 {file['name']}"
+            file["id"]
         )
 
     await query.answer()
