@@ -29,9 +29,7 @@ START_BUTTONS = InlineKeyboardMarkup([
         InlineKeyboardButton(
             "💻 Source Code",
             url="https://github.com/vishnuu123pl/KTU-Study-Bot-V3"
-        )
-    ],
-    [
+        ),
         InlineKeyboardButton(
             "ℹ️ About",
             callback_data="about"
