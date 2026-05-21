@@ -39,8 +39,15 @@ ABOUT_BUTTONS = InlineKeyboardMarkup([
 ])
 
 
-@Client.on_callback_query(filters.regex("^about$"))
+@Client.on_callback_query(
+    filters.regex("^about$")
+)
 async def about_callback(_, query):
+
+    try:
+        await query.answer()
+    except:
+        pass
 
     try:
         await query.message.edit_text(
@@ -50,10 +57,10 @@ async def about_callback(_, query):
     except:
         pass
 
-    await query.answer()
 
-
-@Client.on_message(filters.command("about"))
+@Client.on_message(
+    filters.command("about")
+)
 async def about_cmd(_, message):
 
     await message.reply_text(
