@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
-
-ADMINS = [7412083181]
+# ✅ Fix — import from config
+from config import ADMINS
 
 @Client.on_message(
     filters.command("admin") &
