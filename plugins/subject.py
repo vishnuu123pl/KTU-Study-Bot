@@ -17,7 +17,7 @@ async def subject(_, query):
     if not subjects:
 
         await query.answer(
-            "⚠️ No subjects found.",
+            "⚠️ 𝘕𝘰 𝘴𝘶𝘣𝘫𝘦𝘤𝘵𝘴 𝘧𝘰𝘶𝘯𝘥.",
             show_alert=True
         )
         return
@@ -37,7 +37,7 @@ async def subject(_, query):
 
     rows.append([
         InlineKeyboardButton(
-            "⬅ Back",
+            "⬅ 𝘉𝘢𝘤𝘬",
             callback_data=f"sem{sem.replace('sem','')}_{year}_{cat}"
         )
     ])
@@ -45,7 +45,7 @@ async def subject(_, query):
     try:
 
         await query.message.edit_text(
-            "📚 Select Subject",
+            "📚 𝘚𝘦𝘭𝘦𝘤𝘵 𝘚𝘶𝘣𝘫𝘦𝘤𝘵",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
