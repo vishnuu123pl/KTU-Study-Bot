@@ -18,8 +18,8 @@ async def resources(_, query):
 
     _, branch, sem_str, year, cat, idx_str = query.data.split("_", 5)
 
-    sem = sem_str              # sem3 ✅
-    sem_no = sem.replace("sem", "")   # 3 ✅
+    sem = sem_str
+    sem_no = sem.replace("sem", "")
 
     idx = int(idx_str)
 
@@ -27,7 +27,7 @@ async def resources(_, query):
 
     if idx >= len(subjects):
         await query.answer(
-            "⚠️ Subject not found.",
+            "⚠️ Subject not found",
             show_alert=True
         )
         return
@@ -46,13 +46,11 @@ async def resources(_, query):
     try:
         with open("storage.json") as f:
             data = json.load(f)
+
     except:
         data = {}
 
     notes_key = f"notes_{year}_{branch}_sem{sem_no}_{subject_code}"
-    await query.message.reply_text(
-        f"Searching:\n{notes_key}"
-    )    
     pyq_key = f"pyq_{year}_{branch}_sem{sem_no}_{subject_code}"
 
     available = (
@@ -62,23 +60,24 @@ async def resources(_, query):
 
     if available:
 
-        text += "\nSelect resource below 👇"
+        text += "\n\nSelect resource below 👇"
 
         buttons = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton(
                     "📚 Notes",
-                    callback_data=f"notes_{year}_{branch}_sem{sem_no}_{subject_code}"
+                    callback_data=notes_key
                 ),
                 InlineKeyboardButton(
                     "📝 PYQ",
-                    callback_data=f"pyq_{year}_{branch}_sem{sem_no}_{subject_code}"
+                    callback_data=pyq_key
                 )
             ],
             [
                 InlineKeyboardButton(
                     "📄 Model",
                     callback_data=f"model_{year}_{branch}_sem{sem_no}_{subject_code}"
+                ),
                 InlineKeyboardButton(
                     "🎥 Videos",
                     callback_data=f"video_{year}_{branch}_sem{sem_no}_{subject_code}"
@@ -87,7 +86,7 @@ async def resources(_, query):
             [
                 InlineKeyboardButton(
                     "⬅ Back",
-                    callback_data=f"{branch}_{sem}_{year}_{cat}"
+                    callback_data=f"sub_{branch}_{sem}_{year}_{cat}"
                 )
             ]
         ])
@@ -104,14 +103,19 @@ async def resources(_, query):
             [
                 InlineKeyboardButton(
                     "⬅ Back",
-                    callback_data=f"{branch}_{sem}_{year}_{cat}"
+                    callback_data=f"sub_{branch}_{sem}_{year}_{cat}"
                 )
             ]
         ])
 
-    await query.message.edit_text(
-        text,
-        reply_markup=buttons
-    )
+    try:
+
+        await query.message.edit_text(
+            text,
+            reply_markup=buttons
+        )
+
+    except:
+        pass
 
     await query.answer()
