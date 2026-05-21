@@ -7,7 +7,9 @@ from data import DATA
 # example: cse_sem3_2024_materials
 
 @Client.on_callback_query(
-    filters.regex(r"^(cse|ece|eee|ice|me|civil)_sem(\d+)_(\d+)_(\w+)$")
+    filters.regex(
+        r"^sub_(\w+)_(sem\d+)_(\d+)_(\w+)$"
+    )
 )
 async def subject(_, query):
 
