@@ -1,7 +1,6 @@
 from pyrogram import Client, filters
 import json
 import asyncio
-# ✅ Fix — import from config
 from config import ADMINS]
 
 @Client.on_message(
