@@ -3,12 +3,12 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 BRANCHES = [
-    ("💻 CSE","cse"),
-    ("📡 ECE","ece"),
-    ("⚡ EEE","eee"),
-    ("🔬 ICE", "ice"),
-    ("🔧 ME","me"),
-    ("🏗 Civil","civil")
+    ("💻 𝘊𝘚𝘌","cse"),
+    ("📡 𝘌𝘊𝘌","ece"),
+    ("⚡ 𝘌𝘌𝘌","eee"),
+    ("🔬 𝘐𝘊𝘌", "ice"),
+    ("🔧 𝘔𝘌","me"),
+    ("🏗 𝘊𝘪𝘷𝘪𝘭","civil")
 ]
 
 
@@ -32,7 +32,7 @@ async def branch(_, query):
 
     rows.append([
         InlineKeyboardButton(
-            "⬅ Back",
+            "⬅ 𝘉𝘢𝘤𝘬",
             callback_data="back_home"
         )
     ])
@@ -40,7 +40,7 @@ async def branch(_, query):
     try:
 
         await query.message.edit_text(
-            f"📘 Semester {sem_no}\n\nSelect Branch 👇",
+            f"📘 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 {sem_no}\n\n𝘚𝘦𝘭𝘦𝘤𝘵 𝘉𝘳𝘢𝘯𝘤𝘩 👇",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
