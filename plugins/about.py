@@ -3,36 +3,36 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 ABOUT_TEXT = """
-🎓 <b>KTU Study Bot</b>
+🎓 <b>𝘒𝘛𝘜 𝘚𝘵𝘶𝘥𝘺 𝘉𝘰𝘵</b>
 
-Your smart companion for KTU studies.
+𝘠𝘰𝘶𝘳 𝘴𝘮𝘢𝘳𝘵 𝘤𝘰𝘮𝘱𝘢𝘯𝘪𝘰𝘯 𝘧𝘰𝘳 𝘒𝘛𝘜 𝘴𝘵𝘶𝘥𝘪𝘦𝘴.
 
-✨ Features:
+✨ 𝘍𝘦𝘢𝘵𝘶𝘳𝘦𝘴:
 
-📚 Notes
-📝 Previous Year Questions
-📄 Model Papers
-🎥 Video Resources
-📊 Admin Upload Panel
-🔔 Broadcast System
-📖 Semester & Branch Navigation
-⚡ Fast file delivery
+📚 𝘕𝘰𝘵𝘦𝘴
+📝 𝘗𝘳𝘦𝘷𝘪𝘰𝘶𝘴 𝘠𝘦𝘢𝘳 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴
+📄 𝘔𝘰𝘥𝘦𝘭 𝘗𝘢𝘱𝘦𝘳𝘴
+🎥 𝘝𝘪𝘥𝘦𝘰 𝘙𝘦𝘴𝘰𝘶𝘳𝘤𝘦𝘴
+📊 𝘈𝘥𝘮𝘪𝘯 𝘜𝘱𝘭𝘰𝘢𝘥 𝘗𝘢𝘯𝘦𝘭
+🔔 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵 𝘚𝘺𝘴𝘵𝘦𝘮
+📖 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 & 𝘉𝘳𝘢𝘯𝘤𝘩 𝘕𝘢𝘷𝘪𝘨𝘢𝘵𝘪𝘰𝘯
+⚡ 𝘍𝘢𝘴𝘵 𝘧𝘪𝘭𝘦 𝘥𝘦𝘭𝘪𝘷𝘦𝘳𝘺
 
-👨‍💻 Built for KTU students
+👨‍💻 𝘉𝘶𝘪𝘭𝘵 𝘧𝘰𝘳 𝘒𝘛𝘜 𝘴𝘵𝘶𝘥𝘦𝘯𝘵𝘴
 
-Version: 3.0
+𝘝𝘦𝘳𝘴𝘪𝘰𝘯: 3.0
 """
 
 ABOUT_BUTTONS = InlineKeyboardMarkup([
     [
         InlineKeyboardButton(
-            "📢 Updates",
+            "📢 𝘜𝘱𝘥𝘢𝘵𝘦𝘴",
             url="https://t.me/YOUR_CHANNEL"
         )
     ],
     [
         InlineKeyboardButton(
-            "⬅ Back",
+            "⬅ 𝘉𝘢𝘤𝘬",
             callback_data="back_home"
         )
     ]
