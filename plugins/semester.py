@@ -9,13 +9,13 @@ async def semester(_, query):
     cat    = parts[2]
 
     rows = [
-        [InlineKeyboardButton(f"Semester {i}", callback_data=f"sem{i}_{year}_{cat}")]
+        [InlineKeyboardButton(f"𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 {i}", callback_data=f"sem{i}_{year}_{cat}")]
         for i in range(1, 9)
     ]
-    rows.append([InlineKeyboardButton("⬅ Back", callback_data=f"cat_{cat}")])
+    rows.append([InlineKeyboardButton("⬅ 𝘉𝘢𝘤𝘬", callback_data=f"cat_{cat}")])
 
     await query.message.edit_text(
-        f"📗 **{year} Scheme**\n\nSelect Semester 👇",
+        f"📗 **{year} 𝘚𝘤𝘩𝘦𝘮𝘦**\n\n𝘚𝘦𝘭𝘦𝘤𝘵 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 👇",
         reply_markup=InlineKeyboardMarkup(rows)
     )
     await query.answer()
