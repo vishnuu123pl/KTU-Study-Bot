@@ -7,7 +7,7 @@ ABOUT_TEXT = """
 
 𝘠𝘰𝘶𝘳 𝘴𝘮𝘢𝘳𝘵 𝘤𝘰𝘮𝘱𝘢𝘯𝘪𝘰𝘯 𝘧𝘰𝘳 𝘒𝘛𝘜 𝘴𝘵𝘶𝘥𝘪𝘦𝘴.
 
-✨ 𝘍𝘦𝘢𝘵𝘶𝘳𝘦𝘴:
+✨ 𝘍𝘦𝘢𝘵𝘶𝘳𝘦𝘴
 
 📚 𝘕𝘰𝘵𝘦𝘴
 📝 𝘗𝘳𝘦𝘷𝘪𝘰𝘶𝘴 𝘠𝘦𝘢𝘳 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴
@@ -16,9 +16,9 @@ ABOUT_TEXT = """
 📊 𝘈𝘥𝘮𝘪𝘯 𝘜𝘱𝘭𝘰𝘢𝘥 𝘗𝘢𝘯𝘦𝘭
 🔔 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵 𝘚𝘺𝘴𝘵𝘦𝘮
 📖 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 & 𝘉𝘳𝘢𝘯𝘤𝘩 𝘕𝘢𝘷𝘪𝘨𝘢𝘵𝘪𝘰𝘯
-⚡ 𝘍𝘢𝘴𝘵 𝘧𝘪𝘭𝘦 𝘥𝘦𝘭𝘪𝘷𝘦𝘳𝘺
+⚡ 𝘍𝘢𝘴𝘵 𝘍𝘪𝘭𝘦 𝘋𝘦𝘭𝘪𝘷𝘦𝘳𝘺
 
-👨‍💻 𝘉𝘶𝘪𝘭𝘵 𝘧𝘰𝘳 𝘒𝘛𝘜 𝘴𝘵𝘶𝘥𝘦𝘯𝘵𝘴
+👨‍💻 𝘉𝘶𝘪𝘭𝘵 𝘧𝘰𝘳 𝘒𝘛𝘜 𝘚𝘵𝘶𝘥𝘦𝘯𝘵𝘴
 
 𝘝𝘦𝘳𝘴𝘪𝘰𝘯: 3.0
 """
@@ -26,8 +26,8 @@ ABOUT_TEXT = """
 ABOUT_BUTTONS = InlineKeyboardMarkup([
     [
         InlineKeyboardButton(
-            "📢 𝘜𝘱𝘥𝘢𝘵𝘦𝘴",
-            url="https://t.me/YOUR_CHANNEL" #Your Channel name(replace)
+            "💻 𝘚𝘰𝘶𝘳𝘤𝘦",
+            url="https://github.com/vishnuu123pl/KTU-Study-Bot-V3"
         )
     ],
     [
@@ -39,20 +39,24 @@ ABOUT_BUTTONS = InlineKeyboardMarkup([
 ])
 
 
-@Client.on_callback_query(
-    filters.regex("^about$")
-)
-async def about(_, query):
+@Client.on_callback_query(filters.regex("^about$"))
+async def about_callback(_, query):
 
     try:
-
         await query.message.edit_text(
             ABOUT_TEXT,
             reply_markup=ABOUT_BUTTONS
         )
-
     except:
-
         pass
 
     await query.answer()
+
+
+@Client.on_message(filters.command("about"))
+async def about_cmd(_, message):
+
+    await message.reply_text(
+        ABOUT_TEXT,
+        reply_markup=ABOUT_BUTTONS
+    )
