@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 import json
 import asyncio
-from config import ADMINS]
+from config import ADMINS
 
 @Client.on_message(
     filters.command("broadcast") &
