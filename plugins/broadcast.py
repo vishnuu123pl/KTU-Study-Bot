@@ -1,8 +1,8 @@
 from pyrogram import Client, filters
 import json
 import asyncio
-
-ADMINS = [7412083181]
+# ✅ Fix — import from config
+from config import ADMINS]
 
 @Client.on_message(
     filters.command("broadcast") &
