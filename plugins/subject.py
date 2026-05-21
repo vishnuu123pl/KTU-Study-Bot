@@ -10,16 +10,31 @@ from data import DATA
 )
 async def subject(_, query):
 
+    try:
+        await query.answer()
+    except:
+        pass
+
     _, branch, sem, year, cat = query.data.split("_", 4)
 
-    subjects = DATA.get(branch, {}).get(sem, [])
+    subjects = DATA.get(
+        branch,
+        {}
+    ).get(
+        sem,
+        []
+    )
 
     if not subjects:
 
-        await query.answer(
-            "⚠️ 𝘕𝘰 𝘴𝘶𝘣𝘫𝘦𝘤𝘵𝘴 𝘧𝘰𝘶𝘯𝘥.",
-            show_alert=True
-        )
+        try:
+            await query.answer(
+                "⚠️ 𝘕𝘰 𝘴𝘶𝘣𝘫𝘦𝘤𝘵𝘴 𝘧𝘰𝘶𝘯𝘥.",
+                show_alert=True
+            )
+        except:
+            pass
+
         return
 
     rows = []
@@ -51,5 +66,3 @@ async def subject(_, query):
 
     except:
         pass
-
-    await query.answer()
