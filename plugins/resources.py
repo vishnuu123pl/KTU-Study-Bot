@@ -34,17 +34,7 @@ async def resources(_, query):
         return
 
     subject_name = subjects[idx]
-
-    # Example:
-    # GYMAT101 | Mathematics...
-    # becomes:
-    # gymat101
-    subject_code = (
-        subject_name.split("|")[0]
-        .strip()
-        .lower()
-    )
-
+    subject_code = subject_name.split("|")[0].strip().lower()
     text = (
         f"📚 {subject_name}\n\n"
         f"🏫 Branch: {branch.upper()}\n"
