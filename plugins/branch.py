@@ -6,6 +6,8 @@ BRANCHES = [
     ("💻 CSE","cse"),
     ("📡 ECE","ece"),
     ("⚡ EEE","eee"),
+    # ✅ Add this entry
+    ("🔬 ICE", "ice"),
     ("🔧 ME","me"),
     ("🏗 Civil","civil")
 ]
