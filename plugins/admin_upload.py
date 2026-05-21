@@ -28,7 +28,7 @@ async def upload(_, message):
 
     except:
         await message.reply_text(
-            "Usage:\n/upload notes 2024 cse sem1 maths"
+            "Usage:\n/upload notes 2024 cse sem1 gymat101"
         )
         
 @Client.on_message(
@@ -110,7 +110,7 @@ async def delete_file(_, message):
 
     except:
         await message.reply_text(
-            "Usage:\n/delete notes 2024 cse sem1 maths"
+            "Usage:\n/delete notes 2024 cse sem1 gymat101"
         )
 
 @Client.on_message(
