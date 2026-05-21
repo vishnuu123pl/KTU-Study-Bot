@@ -12,13 +12,7 @@ async def subject(_, query):
 
     _, branch, sem, year, cat = query.data.split("_", 4)
 
-    subjects = DATA.get(
-        branch,
-        {}
-    ).get(
-        sem,
-        []
-    )
+    subjects = DATA.get(branch, {}).get(sem, [])
 
     if not subjects:
 
@@ -32,19 +26,11 @@ async def subject(_, query):
 
     for idx, sub in enumerate(subjects):
 
-        display = sub[:40]
-
-        cb = (
-            f"res_{branch}_"
-            f"{sem}_"
-            f"{year}_"
-            f"{cat}_"
-            f"{idx}"
-        )
+        cb = f"res_{branch}_{sem}_{year}_{cat}_{idx}"
 
         rows.append([
             InlineKeyboardButton(
-                display,
+                sub[:40],
                 callback_data=cb
             )
         ])
@@ -59,12 +45,11 @@ async def subject(_, query):
     try:
 
         await query.message.edit_text(
-            "📚 **Select Subject**",
+            "📚 Select Subject",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
     except:
-
         pass
 
     await query.answer()
