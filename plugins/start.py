@@ -24,10 +24,6 @@ START_BUTTONS = InlineKeyboardMarkup([
     ],
     [
         InlineKeyboardButton(
-            "📢 Updates",
-            url="https://t.me/YOUR_CHANNEL" #add your channel link
-        ),
-        InlineKeyboardButton(
             "ℹ️ About",
             callback_data="about"
         )
