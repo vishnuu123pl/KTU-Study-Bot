@@ -26,5 +26,3 @@ async def main():
             print(e)
 
     await idle()
-
-    await app.stop()
