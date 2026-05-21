@@ -40,9 +40,9 @@ async def start(client, message):
 
     try:
         with open("users.json") as f:
-            users = json.load(f)
+        users = json.load(f)
 
-    except:
+    except (FileNotFoundError, json.JSONDecodeError):
         users = []
 
     user = message.from_user.id
