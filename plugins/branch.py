@@ -6,7 +6,7 @@ BRANCHES = [
     ("💻 𝘊𝘚𝘌","cse"),
     ("📡 𝘌𝘊𝘌","ece"),
     ("⚡ 𝘌𝘌𝘌","eee"),
-    ("🔬 𝘐𝘊𝘌", "ice"),
+    ("🔬 𝘐𝘊𝘌","ice"),
     ("🔧 𝘔𝘌","me"),
     ("🏗 𝘊𝘪𝘷𝘪𝘭","civil")
 ]
@@ -17,9 +17,14 @@ BRANCHES = [
 )
 async def branch(_, query):
 
+    try:
+        await query.answer()
+    except:
+        pass
+
     sem_no, year, cat = query.matches[0].groups()
 
-    rows=[]
+    rows = []
 
     for name, code in BRANCHES:
 
@@ -46,5 +51,3 @@ async def branch(_, query):
 
     except:
         pass
-
-    await query.answer()
