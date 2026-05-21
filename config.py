@@ -6,7 +6,7 @@ load_dotenv()
 API_ID = int(os.getenv("API_ID", "0"))
 API_HASH = os.getenv("API_HASH", "")
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-ADMINS = list(map(int, os.getenv("ADMINS", "7412083181").split()))
+ADMINS = list(map(int, os.getenv("ADMINS", "7412083181").split())) #replace with your TG user id
 
 # Validate on startup
 if not API_ID or API_ID == 0:
