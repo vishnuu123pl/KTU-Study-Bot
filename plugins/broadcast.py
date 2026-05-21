@@ -12,7 +12,7 @@ async def broadcast(_, message):
     if len(message.command) < 2:
 
         await message.reply_text(
-            "Usage:\n/broadcast Your message"
+            "𝘜𝘴𝘢𝘨𝘦:\n/broadcast Your message"
         )
 
         return
@@ -35,7 +35,7 @@ async def broadcast(_, message):
     failed = 0
 
     status = await message.reply_text(
-        "📢 Broadcasting..."
+        "📢 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵𝘪𝘯𝘨..."
     )
 
     for user in users:
@@ -44,7 +44,7 @@ async def broadcast(_, message):
 
             await _.send_message(
                 user,
-                f"📢 Update\n\n{text}"
+                f"📢 𝘜𝘱𝘥𝘢𝘵𝘦\n\n{text}"
             )
 
             sent += 1
@@ -57,8 +57,8 @@ async def broadcast(_, message):
 
     await status.edit_text(
 
-        f"✅ Broadcast Complete\n\n"
-        f"Sent: {sent}\n"
-        f"Failed: {failed}"
+        f"✅ 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵 𝘊𝘰𝘮𝘱𝘭𝘦𝘵𝘦\n\n"
+        f"𝘚𝘦𝘯𝘵: {sent}\n"
+        f"𝘍𝘢𝘪𝘭𝘦𝘥: {failed}"
 
     )
