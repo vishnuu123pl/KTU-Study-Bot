@@ -1,24 +1,24 @@
 import asyncio
 import os
-from aiohttp import web
-from bot import app, main
+import threading
+import nest_asyncio
+from flask import Flask
+from bot import main
 
-async def handle(request):
-    return web.Response(text="Bot is Running")
+nest_asyncio.apply()
 
-async def start_web():
-    server = web.Application()
-    server.router.add_get("/", handle)
-    runner = web.AppRunner(server)
-    await runner.setup()
+flask_app = Flask(__name__)
+
+@flask_app.route("/")
+def home():
+    return "Bot is Running"
+
+def run_flask():
     port = int(os.environ.get("PORT", 8000))
-    site = web.TCPSite(runner, "0.0.0.0", port)
-    await site.start()
-    print(f"Flask Started")
-
-async def run():
-    await start_web()
-    await main()
+    flask_app.run(host="0.0.0.0", port=port, use_reloader=False)
 
 if __name__ == "__main__":
-    asyncio.run(run())
+    flask_thread = threading.Thread(target=run_flask, daemon=True)
+    flask_thread.start()
+    print("Flask Started")
+    asyncio.run(main())
