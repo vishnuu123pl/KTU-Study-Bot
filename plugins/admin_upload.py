@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 import json
-
-ADMINS = [7412083181]
+# ✅ Fix — import from config
+from config import ADMINS
 
 temp = {}
 
