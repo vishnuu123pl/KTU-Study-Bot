@@ -3,14 +3,6 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from data import DATA
 
 
-CAT_LABELS = {
-    "materials": "📚 𝘚𝘵𝘶𝘥𝘺 𝘔𝘢𝘵𝘦𝘳𝘪𝘢𝘭𝘴",
-    "pyq": "📝 𝘗𝘳𝘦𝘷𝘪𝘰𝘶𝘴 𝘠𝘦𝘢𝘳 𝘘𝘶𝘦𝘴𝘵𝘪𝘰𝘯𝘴",
-    "series": "📄 𝘚𝘦𝘳𝘪𝘦𝘴 𝘗𝘢𝘱𝘦𝘳𝘴",
-    "model": "📖 𝘔𝘰𝘥𝘦𝘭 𝘗𝘢𝘱𝘦𝘳𝘴",
-}
-
-
 @Client.on_callback_query(
     filters.regex(
         r"^res_(\w+)_sem(\d+)_(\d+)_(\w+)_(\d+)$"
@@ -40,57 +32,79 @@ async def resources(_, query):
 
     if idx >= len(subjects):
 
-        try:
-            await query.answer(
-                "⚠️ 𝘚𝘶𝘣𝘫𝘦𝘤𝘵 𝘯𝘰𝘵 𝘧𝘰𝘶𝘯𝘥",
-                show_alert=True
-            )
-        except:
-            pass
+        await query.answer(
+            "⚠️ Subject not found.",
+            show_alert=True
+        )
 
         return
 
     subject_name = subjects[idx]
-    subject_code = subject_name.split("|")[0].strip().lower()
+
+    parts = subject_name.split("|")
+
+    subject_code = parts[0].strip().lower()
+
+    subject_title = (
+        parts[1].strip()
+        if len(parts) > 1
+        else subject_code.upper()
+    )
 
     text = (
-        f"📚 {subject_name}\n\n"
-        f"🏫 𝘉𝘳𝘢𝘯𝘤𝘩: {branch.upper()}\n"
-        f"📖 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳: {sem_no}\n"
-        f"📘 𝘚𝘤𝘩𝘦𝘮𝘦: {year}\n\n"
-        f"𝘊𝘩𝘰𝘰𝘴𝘦 𝘳𝘦𝘴𝘰𝘶𝘳𝘤𝘦 𝘣𝘦𝘭𝘰𝘸 👇"
+        f"📚 <b>{subject_code.upper()}</b>\n"
+        f"{subject_title}\n\n"
+
+        f"🏫 <b>{branch.upper()}</b> • "
+        f"<b>SEM {sem_no}</b>\n"
+
+        f"📘 <b>{year} Scheme</b>\n\n"
+
+        f"Choose resource 👇"
     )
 
     buttons = InlineKeyboardMarkup([
+
         [
             InlineKeyboardButton(
-                "📚 𝘕𝘰𝘵𝘦𝘴",
+                "📄 Notes",
                 callback_data=f"notes_{year}_{branch}_sem{sem_no}_{subject_code}"
             ),
             InlineKeyboardButton(
-                "📝 𝘗𝘠𝘘",
+                "📝 PYQ",
                 callback_data=f"pyq_{year}_{branch}_sem{sem_no}_{subject_code}"
             )
         ],
+
         [
             InlineKeyboardButton(
-                "📄 𝘔𝘰𝘥𝘦𝘭 𝘗𝘢𝘱𝘦𝘳𝘴",
+                "📚 Models",
                 callback_data=f"model_{year}_{branch}_sem{sem_no}_{subject_code}"
             ),
             InlineKeyboardButton(
-                "🎥 𝘝𝘪𝘥𝘦𝘰𝘴",
+                "🎥 Videos",
                 callback_data=f"video_{year}_{branch}_sem{sem_no}_{subject_code}"
             )
         ],
+
         [
             InlineKeyboardButton(
-                "⬅ 𝘉𝘢𝘤𝘬",
+                "📩 Request Resource",
+                callback_data=f"request_notes_{year}_{branch}_sem{sem_no}_{subject_code}"
+            )
+        ],
+
+        [
+            InlineKeyboardButton(
+                "⬅ Back",
                 callback_data=f"sub_{branch}_{sem}_{year}_{cat}"
             )
         ]
+
     ])
 
     try:
+
         await query.message.edit_text(
             text,
             reply_markup=buttons
