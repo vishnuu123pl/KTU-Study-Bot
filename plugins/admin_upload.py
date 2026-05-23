@@ -47,19 +47,29 @@ async def save(_, message):
 
     category, year, branch, sem, subject = temp[message.from_user.id]
 
-    await save_resource(
-        category,
-        year,
-        branch,
-        sem,
-        subject,
-        message.document.file_id,
-        message.document.file_name
-    )
+    try:
 
-    await message.reply_text(
-        "✅ Saved Successfully"
-    )
+        await save_resource(
+            category,
+            year,
+            branch,
+            sem,
+            subject,
+            message.document.file_id,
+            message.document.file_name
+        )
+
+        await message.reply_text(
+            "✅ Saved Successfully"
+        )
+
+    except Exception as e:
+
+        print("SAVE ERROR:", e)
+
+        await message.reply_text(
+            f"❌ DB Error:\n{e}"
+        )
 
 
 @Client.on_message(
