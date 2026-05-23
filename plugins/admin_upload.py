@@ -136,7 +136,7 @@ async def list_files(_, message):
 )
 async def stats(_, message):
 
-    total = total_resources()
+    total = await total_resources()
 
     await message.reply_text(
         f"📊 Total Resources: {total}"
