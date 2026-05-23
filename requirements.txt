@@ -3,3 +3,4 @@ tgcrypto
 python-dotenv
 flask
 nest_asyncio
+asyncpg
