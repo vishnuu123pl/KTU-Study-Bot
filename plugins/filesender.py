@@ -38,6 +38,13 @@ async def send_resource(_, query):
 
     for row in files:
 
-        await query.message.reply_document(
-            row["file_id"]
-        )
+        if category == "video":
+
+            await query.message.reply_text(
+                f"🎥 Video Resource:\n\n{row['file_id']}"
+            )
+        else:
+
+            await query.message.reply_document(
+                row["file_id"]
+            )
