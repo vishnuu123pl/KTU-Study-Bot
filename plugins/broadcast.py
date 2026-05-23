@@ -22,7 +22,7 @@ async def broadcast(_, message):
         maxsplit=1
     )[1]
 
-    users = get_users()
+    users = await get_users()
 
     sent = 0
     failed = 0
