@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from database.models import get_resources
-
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 @Client.on_callback_query(
     filters.regex(r"^(notes|pyq|model|video)_(.+)$")
@@ -30,10 +30,18 @@ async def send_resource(_, query):
 
     if len(files) == 0:
 
-        await query.answer(
-            "⚠️ 𝘙𝘦𝘴𝘰𝘶𝘳𝘤𝘦 𝘯𝘰𝘵 𝘶𝘱𝘭𝘰𝘢𝘥𝘦𝘥 𝘺𝘦𝘵",
-            show_alert=True
+        await query.message.reply_text(
+            "⚠️ Resource not uploaded yet.",
+            reply_markup=InlineKeyboardMarkup([
+                [
+                    InlineKeyboardButton(
+                        "📩 Request Resource",
+                        callback_data=f"request_{category}_{year}_{branch}_{semester}_{subject}"
+                    )
+               ]
+            ])
         )
+
         return
 
     for row in files:
