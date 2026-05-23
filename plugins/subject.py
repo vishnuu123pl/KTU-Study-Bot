@@ -27,13 +27,10 @@ async def subject(_, query):
 
     if not subjects:
 
-        try:
-            await query.answer(
-                "⚠️ 𝘕𝘰 𝘴𝘶𝘣𝘫𝘦𝘤𝘵𝘴 𝘧𝘰𝘶𝘯𝘥.",
-                show_alert=True
-            )
-        except:
-            pass
+        await query.answer(
+            "⚠️ No subjects found.",
+            show_alert=True
+        )
 
         return
 
@@ -41,12 +38,12 @@ async def subject(_, query):
 
     for idx, sub in enumerate(subjects):
 
-        cb = f"res_{branch}_{sem}_{year}_{cat}_{idx}"
+        code = sub.split("|")[0].strip()
 
         rows.append([
             InlineKeyboardButton(
-                sub[:40],
-                callback_data=cb
+                f"📘 {code.upper()}",
+                callback_data=f"res_{branch}_{sem}_{year}_{cat}_{idx}"
             )
         ])
 
@@ -60,7 +57,10 @@ async def subject(_, query):
     try:
 
         await query.message.edit_text(
-            "📚 𝘚𝘦𝘭𝘦𝘤𝘵 𝘚𝘶𝘣𝘫𝘦𝘤𝘵",
+            f"🏫 <b>{branch.upper()}</b> • "
+            f"<b>{sem.upper()}</b>\n"
+            f"📚 <b>{year} Scheme</b>\n\n"
+            f"Choose a subject 👇",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
