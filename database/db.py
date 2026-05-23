@@ -1,31 +1,33 @@
-import sqlite3
+import asyncpg
+import os
 
-conn = sqlite3.connect(
-    "ktu_bot.db",
-    check_same_thread=False
-)
+pool = None
 
-cursor = conn.cursor()
+async def init_db():
 
-def init_db():
+    global pool
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS users(
-        user_id INTEGER PRIMARY KEY
+    pool = await asyncpg.create_pool(
+        os.getenv("DATABASE_URL")
     )
-    """)
 
-    cursor.execute("""
-    CREATE TABLE IF NOT EXISTS resources(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        category TEXT,
-        year TEXT,
-        branch TEXT,
-        semester TEXT,
-        subject TEXT,
-        file_id TEXT,
-        file_name TEXT
-    )
-    """)
+    async with pool.acquire() as conn:
 
-    conn.commit()
+        await conn.execute("""
+        CREATE TABLE IF NOT EXISTS users(
+            user_id BIGINT PRIMARY KEY
+        )
+        """)
+
+        await conn.execute("""
+        CREATE TABLE IF NOT EXISTS resources(
+            id SERIAL PRIMARY KEY,
+            category TEXT,
+            year TEXT,
+            branch TEXT,
+            semester TEXT,
+            subject TEXT,
+            file_id TEXT,
+            file_name TEXT
+        )
+        """)
