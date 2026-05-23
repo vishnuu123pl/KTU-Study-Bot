@@ -1,7 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.models import add_user
-from config import LOG_CHANNEL
+from config import LOG_CHANNEL, ADMINS
 
 START_TEXT = """
 🎓 <b>𝘞𝘦𝘭𝘤𝘰𝘮𝘦 𝘵𝘰 KTU 𝘚𝘵𝘶𝘥𝘺 𝘉𝘰𝘵</b>
@@ -28,26 +28,35 @@ START_BUTTONS = InlineKeyboardMarkup([
     ]
 ])
 
+
 @Client.on_message(filters.command("start"))
 async def start(client, message):
 
     user_id = message.from_user.id
 
-    # Save user to database
-    await add_user(user_id)
-
-    # Try to send to log channel, but don't fail if it doesn't work
+    # Save user
     try:
-        await client.send_message(
-            LOG_CHANNEL,
-            f"#NewUser\n\n"
-            f"ID - {message.from_user.id}\n"
-            f"Name - {message.from_user.first_name}"
-        )
-    except Exception as e:
-        print(f"Failed to send to log channel: {e}")
+        await add_user(user_id)
 
-    # Always reply to the user
+    except Exception as e:
+        print(f"ADD USER ERROR: {e}")
+
+    # Log only non-admin users
+    try:
+
+        if user_id not in ADMINS:
+
+            await client.send_message(
+                LOG_CHANNEL,
+                f"#NewUser\n\n"
+                f"ID - {user_id}\n"
+                f"Name - {message.from_user.first_name}"
+            )
+
+    except Exception as e:
+        print(f"LOG ERROR: {e}")
+
+    # Always respond
     await message.reply_photo(
         photo="https://pic-link-bot.lovable.app/i/telegram-1779366829596-64036ff9.jpg",
         caption=START_TEXT,
