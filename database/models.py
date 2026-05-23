@@ -1,20 +1,21 @@
-from database.db import conn, cursor
+from database.db import pool
 
 
-def add_user(user_id):
+async def add_user(user_id):
 
-    cursor.execute(
-        """
-        INSERT OR IGNORE INTO users(user_id)
-        VALUES(?)
-        """,
-        (user_id,)
-    )
+    async with pool.acquire() as conn:
 
-    conn.commit()
+        await conn.execute(
+            """
+            INSERT INTO users(user_id)
+            VALUES($1)
+            ON CONFLICT DO NOTHING
+            """,
+            user_id
+        )
 
 
-def save_resource(
+async def save_resource(
     category,
     year,
     branch,
@@ -24,18 +25,20 @@ def save_resource(
     file_name
 ):
 
-    cursor.execute("""
-    INSERT INTO resources(
-        category,
-        year,
-        branch,
-        semester,
-        subject,
-        file_id,
-        file_name
-    )
-    VALUES(?,?,?,?,?,?,?)
-    """, (
+    async with pool.acquire() as conn:
+
+        await conn.execute("""
+        INSERT INTO resources(
+            category,
+            year,
+            branch,
+            semester,
+            subject,
+            file_id,
+            file_name
+        )
+        VALUES($1,$2,$3,$4,$5,$6,$7)
+        """,
         category,
         year,
         branch,
@@ -43,12 +46,10 @@ def save_resource(
         subject.lower(),
         file_id,
         file_name
-    ))
-
-    conn.commit()
+        )
 
 
-def get_resources(
+async def get_resources(
     category,
     year,
     branch,
@@ -56,26 +57,28 @@ def get_resources(
     subject
 ):
 
-    cursor.execute("""
-    SELECT file_id,file_name
-    FROM resources
-    WHERE category=?
-    AND year=?
-    AND branch=?
-    AND semester=?
-    AND subject=?
-    """, (
+    async with pool.acquire() as conn:
+
+        rows = await conn.fetch("""
+        SELECT file_id,file_name
+        FROM resources
+        WHERE category=$1
+        AND year=$2
+        AND branch=$3
+        AND semester=$4
+        AND subject=$5
+        """,
         category,
         year,
         branch,
         semester,
         subject.lower()
-    ))
+        )
 
-    return cursor.fetchall()
+        return rows
 
 
-def delete_resource(
+async def delete_resource(
     category,
     year,
     branch,
@@ -83,48 +86,54 @@ def delete_resource(
     subject
 ):
 
-    cursor.execute("""
-    DELETE FROM resources
-    WHERE category=?
-    AND year=?
-    AND branch=?
-    AND semester=?
-    AND subject=?
-    """, (
+    async with pool.acquire() as conn:
+
+        await conn.execute("""
+        DELETE FROM resources
+        WHERE category=$1
+        AND year=$2
+        AND branch=$3
+        AND semester=$4
+        AND subject=$5
+        """,
         category,
         year,
         branch,
         semester,
         subject.lower()
-    ))
-
-    conn.commit()
+        )
 
 
-def list_keys():
+async def list_keys():
 
-    cursor.execute("""
-    SELECT DISTINCT
-    category,year,branch,semester,subject
-    FROM resources
-    """)
+    async with pool.acquire() as conn:
 
-    return cursor.fetchall()
+        rows = await conn.fetch("""
+        SELECT DISTINCT
+        category,year,branch,semester,subject
+        FROM resources
+        """)
+
+        return rows
 
 
-def total_resources():
+async def total_resources():
 
-    cursor.execute("""
-    SELECT COUNT(*)
-    FROM resources
-    """)
+    async with pool.acquire() as conn:
 
-    return cursor.fetchone()[0]
+        row = await conn.fetchrow(
+            "SELECT COUNT(*) FROM resources"
+        )
 
-def get_users():
+        return row["count"]
 
-    cursor.execute(
-        "SELECT user_id FROM users"
-    )
 
-    return [row[0] for row in cursor.fetchall()]
+async def get_users():
+
+    async with pool.acquire() as conn:
+
+        rows = await conn.fetch(
+            "SELECT user_id FROM users"
+        )
+
+        return [row["user_id"] for row in rows]
