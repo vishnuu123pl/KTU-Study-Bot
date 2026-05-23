@@ -109,7 +109,7 @@ async def delete_file(_, message):
 )
 async def list_files(_, message):
 
-    data = list_keys()
+    data = await list_keys()
 
     if not data:
         await message.reply_text(
