@@ -38,7 +38,9 @@ async def scheme(_, query):
     try:
 
         await query.message.edit_text(
-            "📚 **𝘚𝘦𝘭𝘦𝘤𝘵 𝘒𝘛𝘜 𝘚𝘤𝘩𝘦𝘮𝘦** 👇",
+            """📚 Select KTU Scheme
+
+Choose your academic scheme 👇""",
             reply_markup=buttons
         )
 
