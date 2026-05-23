@@ -1,5 +1,8 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 from data import DATA
 
 
@@ -11,7 +14,7 @@ async def search(_, message):
     if len(message.command) < 2:
 
         await message.reply_text(
-            "Usage:\n/search subject_code"
+            "Usage:\n/search subject"
         )
 
         return
@@ -34,8 +37,6 @@ async def search(_, message):
 
                     found = True
 
-                    code = subject.split("|")[0].strip()
-
                     await message.reply_text(
 
                         f"📚 <b>{subject}</b>\n\n"
@@ -46,8 +47,14 @@ async def search(_, message):
 
                             [
                                 InlineKeyboardButton(
-                                    "📂 Open Resources",
-                                    callback_data=f"res_{branch}_{sem}_2024_materials_{idx}"
+                                    "📚 View Resources",
+                                    callback_data=(
+                                        f"res_{branch}_"
+                                        f"{sem}_"
+                                        f"2024_"
+                                        f"materials_"
+                                        f"{idx}"
+                                    )
                                 )
                             ]
 
