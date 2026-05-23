@@ -20,7 +20,7 @@ async def send_resource(_, query):
     semester = parts[3]
     subject = parts[4]
 
-    files = get_resources(
+    files = await get_resources(
         category,
         year,
         branch,
