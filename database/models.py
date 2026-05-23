@@ -3,7 +3,7 @@ from database.db import db
 
 async def add_user(user_id):
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         await conn.execute(
             """
@@ -25,7 +25,7 @@ async def save_resource(
     file_name
 ):
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         await conn.execute("""
         INSERT INTO resources(
@@ -57,7 +57,7 @@ async def get_resources(
     subject
 ):
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         rows = await conn.fetch("""
         SELECT file_id,file_name
@@ -86,7 +86,7 @@ async def delete_resource(
     subject
 ):
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         await conn.execute("""
         DELETE FROM resources
@@ -106,7 +106,7 @@ async def delete_resource(
 
 async def list_keys():
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         rows = await conn.fetch("""
         SELECT DISTINCT
@@ -117,7 +117,7 @@ async def list_keys():
         return rows
 
 
-async def total_resources():
+async with db.pool.acquire() as conn:
 
     async with pool.acquire() as conn:
 
@@ -130,7 +130,7 @@ async def total_resources():
 
 async def get_users():
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         rows = await conn.fetch(
             "SELECT user_id FROM users"
