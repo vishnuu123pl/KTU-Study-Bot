@@ -1,7 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from data import DATA
-import json
 
 
 CAT_LABELS = {
@@ -92,7 +91,6 @@ async def resources(_, query):
     ])
 
     try:
-
         await query.message.edit_text(
             text,
             reply_markup=buttons
