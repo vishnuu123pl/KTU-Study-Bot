@@ -44,6 +44,52 @@ async def upload(_, message):
         )
 
 
+# PDF / DOCUMENT SAVE HANDLER
+@Client.on_message(
+    filters.document &
+    filters.user(ADMINS)
+)
+async def save_file(_, message):
+
+    if message.from_user.id not in temp:
+        return
+
+    category, year, branch, sem, subject = (
+        temp[message.from_user.id]
+    )
+
+    if category == "video":
+        return
+
+    try:
+
+        await save_resource(
+            category,
+            year,
+            branch,
+            sem,
+            subject,
+            message.document.file_id,
+            message.document.file_name
+        )
+
+        await message.reply_text(
+            "✅ Saved Successfully"
+        )
+
+    except Exception as e:
+
+        print(
+            "SAVE ERROR:",
+            e
+        )
+
+        await message.reply_text(
+            f"❌ DB Error:\n{e}"
+        )
+
+
+# VIDEO LINK SAVE HANDLER
 @Client.on_message(
     filters.text &
     filters.user(ADMINS) &
