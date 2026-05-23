@@ -1,7 +1,8 @@
 from pyrogram import Client, filters
-import json
 import asyncio
 from config import ADMINS
+from database.models import get_users
+
 
 @Client.on_message(
     filters.command("broadcast") &
@@ -12,7 +13,7 @@ async def broadcast(_, message):
     if len(message.command) < 2:
 
         await message.reply_text(
-            "𝘜𝘴𝘢𝘨𝘦:\n/broadcast Your message"
+            "Usage:\n/broadcast Your message"
         )
 
         return
@@ -21,21 +22,13 @@ async def broadcast(_, message):
         maxsplit=1
     )[1]
 
-    try:
-
-        with open("users.json") as f:
-
-            users = json.load(f)
-
-    except:
-
-        users = []
+    users = get_users()
 
     sent = 0
     failed = 0
 
     status = await message.reply_text(
-        "📢 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵𝘪𝘯𝘨..."
+        "📢 Broadcasting..."
     )
 
     for user in users:
@@ -44,7 +37,7 @@ async def broadcast(_, message):
 
             await _.send_message(
                 user,
-                f"📢 𝘜𝘱𝘥𝘢𝘵𝘦\n\n{text}"
+                f"📢 Update\n\n{text}"
             )
 
             sent += 1
@@ -56,9 +49,7 @@ async def broadcast(_, message):
             failed += 1
 
     await status.edit_text(
-
-        f"✅ 𝘉𝘳𝘰𝘢𝘥𝘤𝘢𝘴𝘵 𝘊𝘰𝘮𝘱𝘭𝘦𝘵𝘦\n\n"
-        f"𝘚𝘦𝘯𝘵: {sent}\n"
-        f"𝘍𝘢𝘪𝘭𝘦𝘥: {failed}"
-
+        f"✅ Broadcast Complete\n\n"
+        f"Sent: {sent}\n"
+        f"Failed: {failed}"
     )
