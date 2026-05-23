@@ -33,4 +33,12 @@ async def init_db():
             file_id TEXT,
             file_name TEXT
         )
+        await conn.execute("""
+        CREATE TABLE IF NOT EXISTS requests(
+            id SERIAL PRIMARY KEY,
+            category TEXT,
+            branch TEXT,
+            semester TEXT,
+            subject TEXT
+        )
         """)
