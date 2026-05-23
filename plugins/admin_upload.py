@@ -152,7 +152,13 @@ async def stats(_, message):
 
     total = await total_resources()
 
-    users = await get_users()
+    from database.models import (
+        save_resource,
+        delete_resource,
+        list_keys,
+        total_resources,
+        get_users
+    )
 
     await message.reply_text(
 
