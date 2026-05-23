@@ -6,7 +6,6 @@ load_dotenv()
 
 pool = None
 
-
 async def init_db():
 
     global pool
