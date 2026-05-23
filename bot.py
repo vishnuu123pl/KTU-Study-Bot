@@ -1,5 +1,6 @@
 from pyrogram import Client, idle
 from config import API_ID, API_HASH, BOT_TOKEN, ADMINS
+from database.db import init_db
 
 app = Client(
     "KTUStudyBot",
@@ -9,8 +10,10 @@ app = Client(
     plugins=dict(root="plugins")
 )
 
-
 async def main():
+
+    # Initialize Database
+    init_db()
 
     await app.start()
 
@@ -18,8 +21,14 @@ async def main():
 
     for admin in ADMINS:
         try:
-            await app.send_message(admin, "🔄 Bot Restarted Successfully")
+            await app.send_message(
+                admin,
+                "🔄 Bot Restarted Successfully"
+            )
         except Exception as e:
             print(e)
 
     await idle()
+
+if __name__ == "__main__":
+    app.run(main())
