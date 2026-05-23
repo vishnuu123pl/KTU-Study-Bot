@@ -26,14 +26,21 @@ async def branch(_, query):
 
     rows = []
 
-    for name, code in BRANCHES:
+    # 2-column layout
+    for i in range(0, len(BRANCHES), 2):
 
-        rows.append([
-            InlineKeyboardButton(
-                name,
-                callback_data=f"sub_{code}_sem{sem_no}_{year}_{cat}"
+        row = []
+
+        for name, code in BRANCHES[i:i+2]:
+
+            row.append(
+                InlineKeyboardButton(
+                    name,
+                    callback_data=f"sub_{code}_sem{sem_no}_{year}_{cat}"
+                )
             )
-        ])
+
+        rows.append(row)
 
     rows.append([
         InlineKeyboardButton(
@@ -45,7 +52,10 @@ async def branch(_, query):
     try:
 
         await query.message.edit_text(
-            f"📘 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 {sem_no}\n\n𝘚𝘦𝘭𝘦𝘤𝘵 𝘉𝘳𝘢𝘯𝘤𝘩 👇",
+            f"🏫 <b>Select Branch</b>\n\n"
+            f"📖 Semester: <b>SEM {sem_no}</b>\n"
+            f"📚 Scheme: <b>{year}</b>\n\n"
+            f"Choose your branch 👇",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
