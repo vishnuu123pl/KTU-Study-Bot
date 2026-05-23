@@ -32,7 +32,17 @@ async def send_resource(_, query):
     if len(files) == 0:
 
         await query.message.reply_text(
-            "⚠️ Resource not uploaded yet.",
+
+            f"⚠️ <b>Resource Not Available</b>\n\n"
+
+            f"📚 Subject: <b>{subject.upper()}</b>\n"
+            f"📂 Category: <b>{category.upper()}</b>\n\n"
+
+            f"You can request this resource 👇\n\n"
+
+            f"━━━━━━━━━━━━━━\n"
+            f"KTU Study Bot V3",
+
             reply_markup=InlineKeyboardMarkup([
                 [
                     InlineKeyboardButton(
@@ -44,7 +54,6 @@ async def send_resource(_, query):
         )
 
         return
-
     # Header message before files
     await query.message.reply_text(
         f"📚 <b>{subject.upper()}</b>\n\n"
