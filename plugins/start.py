@@ -9,13 +9,20 @@ from config import LOG_CHANNEL, ADMINS
 
 
 START_TEXT = """
-🎓 <b>KTU Study Bot V3</b>
+🎓 <b>𝘒𝘛𝘜 𝘚𝘵𝘶𝘥𝘺 𝘉𝘰𝘵 𝘝3</b>
 
-Get <b>Notes • PYQs • Models • Videos</b>
-for KTU subjects.
+𝘎𝘦𝘵 <b>𝘕𝘰𝘵𝘦𝘴 • 𝘗𝘠𝘘𝘴 • 𝘔𝘰𝘥𝘦𝘭𝘴 • 𝘝𝘪𝘥𝘦𝘰𝘴</b>
+𝘧𝘰𝘳 𝘒𝘛𝘜 𝘴𝘶𝘣𝘫𝘦𝘤𝘵𝘴.
 
-Choose an option below 👇
-"""
+🔎 𝘜𝘴𝘦 /search
+𝘧𝘰𝘳 𝘲𝘶𝘪𝘤𝘬 𝘴𝘶𝘣𝘫𝘦𝘤𝘵 𝘴𝘦𝘢𝘳𝘤𝘩.
+
+❓ 𝘕𝘦𝘦𝘥 𝘩𝘦𝘭𝘱?
+
+<b>𝘊𝘭𝘪𝘤𝘬 👉 /help</b>
+
+𝘊𝘩𝘰𝘰𝘴𝘦 𝘢𝘯 𝘰𝘱𝘵𝘪𝘰𝘯 𝘣𝘦𝘭𝘰𝘸 👇
+""""
 
 
 START_BUTTONS = InlineKeyboardMarkup([
