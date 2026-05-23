@@ -1,6 +1,7 @@
 from pyrogram import Client, idle
 from config import API_ID, API_HASH, BOT_TOKEN, ADMINS
 from database.db import init_db
+import asyncio
 
 app = Client(
     "KTUStudyBot",
@@ -31,4 +32,4 @@ async def main():
     await idle()
 
 if __name__ == "__main__":
-    app.run(main())
+    asyncio.run(main())
