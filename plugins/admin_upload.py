@@ -4,10 +4,12 @@ from database.models import (
     save_resource,
     delete_resource,
     list_keys,
-    total_resources
+    total_resources,
+    get_users
 )
 
 temp = {}
+
 
 @Client.on_message(
     filters.command("upload") &
@@ -16,7 +18,10 @@ temp = {}
 async def upload(_, message):
 
     try:
-        _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
+
+        _, category, year, branch, sem, subject = (
+            message.text.split(maxsplit=5)
+        )
 
         temp[message.from_user.id] = (
             category,
@@ -27,26 +32,42 @@ async def upload(_, message):
         )
 
         await message.reply_text(
-            "📄 Send PDF\n🎥 For video category, send link"
+            "📄 Send PDF\n"
+            "🎥 For video category, send link"
         )
 
     except:
+
         await message.reply_text(
-            "Usage:\n/upload notes 2024 cse sem1 gymat101"
+            "Usage:\n"
+            "/upload notes 2024 cse sem1 gamat101"
         )
 
 
 @Client.on_message(
     filters.text &
     filters.user(ADMINS) &
-    ~filters.command(["start", "upload", "delete", "list", "stats", "done", "reply", "admin", "search", "broadcast"])
+    ~filters.command([
+        "start",
+        "upload",
+        "delete",
+        "list",
+        "stats",
+        "done",
+        "reply",
+        "admin",
+        "search",
+        "broadcast"
+    ])
 )
 async def save_video(_, message):
 
     if message.from_user.id not in temp:
         return
 
-    category, year, branch, sem, subject = temp[message.from_user.id]
+    category, year, branch, sem, subject = (
+        temp[message.from_user.id]
+    )
 
     if category != "video":
         return
@@ -69,7 +90,10 @@ async def save_video(_, message):
 
     except Exception as e:
 
-        print("VIDEO SAVE ERROR:", e)
+        print(
+            "VIDEO SAVE ERROR:",
+            e
+        )
 
         await message.reply_text(
             f"❌ DB Error:\n{e}"
@@ -83,7 +107,10 @@ async def save_video(_, message):
 async def done(_, message):
 
     if message.from_user.id in temp:
-        del temp[message.from_user.id]
+
+        del temp[
+            message.from_user.id
+        ]
 
     await message.reply_text(
         "✅ Upload Completed"
@@ -97,7 +124,10 @@ async def done(_, message):
 async def delete_file(_, message):
 
     try:
-        _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
+
+        _, category, year, branch, sem, subject = (
+            message.text.split(maxsplit=5)
+        )
 
         await delete_resource(
             category,
@@ -112,8 +142,10 @@ async def delete_file(_, message):
         )
 
     except:
+
         await message.reply_text(
-            "Usage:\n/delete notes 2024 cse sem1 gymat101"
+            "Usage:\n"
+            "/delete notes 2024 cse sem1 gamat101"
         )
 
 
@@ -126,12 +158,16 @@ async def list_files(_, message):
     data = await list_keys()
 
     if not data:
+
         await message.reply_text(
             "📂 No Files Uploaded"
         )
+
         return
 
-    text = "📚 Uploaded Files:\n\n"
+    text = (
+        "📚 Uploaded Files:\n\n"
+    )
 
     for row in data:
 
@@ -141,7 +177,9 @@ async def list_files(_, message):
             f"• {category}_{year}_{branch}_{sem}_{subject}\n"
         )
 
-    await message.reply_text(text)
+    await message.reply_text(
+        text
+    )
 
 
 @Client.on_message(
@@ -152,13 +190,7 @@ async def stats(_, message):
 
     total = await total_resources()
 
-    from database.models import (
-        save_resource,
-        delete_resource,
-        list_keys,
-        total_resources,
-        get_users
-    )
+    users = await get_users()
 
     await message.reply_text(
 
