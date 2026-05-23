@@ -12,20 +12,23 @@ async def semester(_, query):
     except:
         pass
 
-    parts = query.data.split("_")
+    year, cat = query.matches[0].groups()
 
-    year = parts[1]
-    cat = parts[2]
+    rows = []
 
-    rows = [
-        [
+    # 2-column semester grid
+    for i in range(1, 9, 2):
+
+        rows.append([
             InlineKeyboardButton(
-                f"𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 {i}",
+                f"📘 𝘚𝘌𝘔 {i}",
                 callback_data=f"sem{i}_{year}_{cat}"
+            ),
+            InlineKeyboardButton(
+                f"📗 𝘚𝘌𝘔 {i+1}",
+                callback_data=f"sem{i+1}_{year}_{cat}"
             )
-        ]
-        for i in range(1, 9)
-    ]
+        ])
 
     rows.append([
         InlineKeyboardButton(
@@ -37,7 +40,8 @@ async def semester(_, query):
     try:
 
         await query.message.edit_text(
-            f"📗 **{year} 𝘚𝘤𝘩𝘦𝘮𝘦**\n\n𝘚𝘦𝘭𝘦𝘤𝘵 𝘚𝘦𝘮𝘦𝘴𝘵𝘦𝘳 👇",
+            f"📚 <b>{year} Scheme</b>\n\n"
+            f"Choose your semester 👇",
             reply_markup=InlineKeyboardMarkup(rows)
         )
 
