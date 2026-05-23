@@ -37,15 +37,18 @@ async def upload(_, message):
 
 
 @Client.on_message(
-    filters.document &
+    filters.text &
     filters.user(ADMINS)
 )
-async def save(_, message):
+async def save_video(_, message):
 
     if message.from_user.id not in temp:
         return
 
     category, year, branch, sem, subject = temp[message.from_user.id]
+
+    if category != "video":
+        return
 
     try:
 
@@ -55,17 +58,17 @@ async def save(_, message):
             branch,
             sem,
             subject,
-            message.document.file_id,
-            message.document.file_name
+            message.text,
+            "Video Link"
         )
 
         await message.reply_text(
-            "✅ Saved Successfully"
+            "✅ Video Link Saved"
         )
 
     except Exception as e:
 
-        print("SAVE ERROR:", e)
+        print("VIDEO SAVE ERROR:", e)
 
         await message.reply_text(
             f"❌ DB Error:\n{e}"
