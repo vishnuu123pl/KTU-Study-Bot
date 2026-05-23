@@ -59,7 +59,7 @@ async def get_resources(
 
     async with db.pool.acquire() as conn:
 
-        rows = await conn.fetch("""
+        return await conn.fetch("""
         SELECT file_id,file_name
         FROM resources
         WHERE category=$1
@@ -74,8 +74,6 @@ async def get_resources(
         semester,
         subject.lower()
         )
-
-        return rows
 
 
 async def delete_resource(
@@ -108,13 +106,11 @@ async def list_keys():
 
     async with db.pool.acquire() as conn:
 
-        rows = await conn.fetch("""
+        return await conn.fetch("""
         SELECT DISTINCT
         category,year,branch,semester,subject
         FROM resources
         """)
-
-        return rows
 
 
 async def total_resources():
