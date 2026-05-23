@@ -150,12 +150,14 @@ async def list_files(_, message):
 )
 async def stats(_, message):
 
-    resources = await total_resources()
+    total = await total_resources()
 
     users = await get_users()
 
     await message.reply_text(
+
         f"📊 Bot Statistics\n\n"
-        f"👥 Total Users: {len(users)}\n"
-        f"📚 Total Resources: {resources}"
+
+        f"👥 Users: {len(users)}\n"
+        f"📚 Resources: {total}"
     )
