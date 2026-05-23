@@ -1,4 +1,4 @@
-from database.db import db
+import database.db as db
 
 
 async def add_user(user_id):
@@ -117,15 +117,15 @@ async def list_keys():
         return rows
 
 
-async with db.pool.acquire() as conn:
+async def total_resources():
 
-    async with pool.acquire() as conn:
+    async with db.pool.acquire() as conn:
 
         row = await conn.fetchrow(
-            "SELECT COUNT(*) FROM resources"
+            "SELECT COUNT(*) AS total FROM resources"
         )
 
-        return row["count"]
+        return row["total"]
 
 
 async def get_users():
