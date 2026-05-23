@@ -33,7 +33,7 @@ async def start(client, message):
     user_id = message.from_user.id
 
     # Save user to database
-    add_user(user_id)
+    await add_user(user_id)
 
     await message.reply_photo(
         photo="https://pic-link-bot.lovable.app/i/telegram-1779366829596-64036ff9.jpg",
