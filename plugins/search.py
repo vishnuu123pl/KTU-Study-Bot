@@ -1,4 +1,5 @@
 from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from data import DATA
 
 
@@ -19,33 +20,42 @@ async def search(_, message):
         maxsplit=1
     )[1].lower()
 
-    results = []
+    found = False
 
     for branch in DATA:
 
         for sem in DATA[branch]:
 
-            for subject in DATA[branch][sem]:
+            subjects = DATA[branch][sem]
+
+            for idx, subject in enumerate(subjects):
 
                 if query in subject.lower():
 
-                    results.append(
-                        f"📚 <b>{subject}</b>\n"
+                    found = True
+
+                    code = subject.split("|")[0].strip()
+
+                    await message.reply_text(
+
+                        f"📚 <b>{subject}</b>\n\n"
                         f"🏫 {branch.upper()} • "
-                        f"{sem.upper()}"
+                        f"{sem.upper()}",
+
+                        reply_markup=InlineKeyboardMarkup([
+
+                            [
+                                InlineKeyboardButton(
+                                    "📂 Open Resources",
+                                    callback_data=f"res_{branch}_{sem}_2024_materials_{idx}"
+                                )
+                            ]
+
+                        ])
                     )
 
-    if not results:
+    if not found:
 
         await message.reply_text(
             "⚠️ No matching subjects found."
         )
-
-        return
-
-    text = (
-        "🔎 <b>Search Results</b>\n\n" +
-        "\n\n".join(results[:15])
-    )
-
-    await message.reply_text(text)
