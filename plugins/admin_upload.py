@@ -27,7 +27,7 @@ async def upload(_, message):
         )
 
         await message.reply_text(
-            "📄 𝘕𝘰𝘸 𝘴𝘦𝘯𝘥 𝘗𝘋𝘍"
+            "📄 Send PDF\n🎥 For video category, send link"
         )
 
     except:
