@@ -15,33 +15,31 @@ START_BUTTONS = InlineKeyboardMarkup([
             "🎓 𝘉.𝘛𝘦𝘤𝘩",
             callback_data="cat_materials"
         )
-    ],
-    [
-        InlineKeyboardButton(
-            "💻 𝘚𝘰𝘶𝘳𝘤𝘦 𝘊𝘰𝘥𝘦",
-            url="https://github.com/vishnuu123pl/KTU-Study-Bot-V3"
-        ),
-        InlineKeyboardButton(
-            "ℹ️ 𝘈𝘣𝘰𝘶𝘵",
-            callback_data="about"
-        )
     ]
 ])
+
 
 @Client.on_message(filters.command("start"))
 async def start(client, message):
 
-    user_id = message.from_user.id
+    try:
+        await add_user(
+            message.from_user.id
+        )
 
-    # Save user to database
-    await add_user(user_id)
+    except Exception as e:
+        print("ADD USER ERROR:", e)
 
-    await client.send_message(
-        LOG_CHANNEL,
-        f"#NewUser\n\n"
-        f"ID - {message.from_user.id}\n"
-        f"Name - {message.from_user.first_name}"
-    )
+    try:
+        await client.send_message(
+            LOG_CHANNEL,
+            f"#NewUser\n\n"
+            f"ID - {message.from_user.id}\n"
+            f"Name - {message.from_user.first_name}"
+        )
+
+    except Exception as e:
+        print("LOG ERROR:", e)
 
     await message.reply_photo(
         photo="https://pic-link-bot.lovable.app/i/telegram-1779366829596-64036ff9.jpg",
