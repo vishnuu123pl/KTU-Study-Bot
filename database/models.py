@@ -158,3 +158,16 @@ async def add_request(
             semester,
             subject
         )
+
+async def top_requests():
+
+    async with db.pool.acquire() as conn:
+
+        return await conn.fetch("""
+        SELECT subject,
+        COUNT(*) AS total
+        FROM requests
+        GROUP BY subject
+        ORDER BY total DESC
+        LIMIT 10
+        """)
