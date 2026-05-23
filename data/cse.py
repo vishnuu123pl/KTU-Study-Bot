@@ -1,4 +1,4 @@
-"CSE": {
+CSE = {
 
     "sem1": [
         "gamat101 | Mathematics for Information Science - 1",
@@ -90,4 +90,5 @@
         "pccsp803 | Major Project Phase 2",
         "comprehensive | Comprehensive Course Viva Voce"
     ]
+
 }
