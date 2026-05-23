@@ -1,9 +1,13 @@
 from pyrogram import Client, filters
-import json
 from config import ADMINS
+from database.db import (
+    save_resource,
+    delete_resource,
+    list_keys,
+    total_resources
+)
 
 temp = {}
-
 
 @Client.on_message(
     filters.command("upload") &
@@ -28,9 +32,10 @@ async def upload(_, message):
 
     except:
         await message.reply_text(
-            "𝘜𝘴𝘢𝘨𝘦:\n/upload notes 2024 cse sem1 gymat101"
+            "Usage:\n/upload notes 2024 cse sem1 gymat101"
         )
-        
+
+
 @Client.on_message(
     filters.document &
     filters.user(ADMINS)
@@ -42,28 +47,20 @@ async def save(_, message):
 
     category, year, branch, sem, subject = temp[message.from_user.id]
 
-    key = f"{category}_{year}_{branch}_{sem}_{subject.lower()}"
-
-    try:
-        with open("storage.json") as f:
-            data = json.load(f)
-    except:
-        data = {}
-
-    if key not in data:
-        data[key] = []
-
-    data[key].append({
-        "id": message.document.file_id,
-        "name": message.document.file_name
-    })
-
-    with open("storage.json", "w") as f:
-        json.dump(data, f, indent=4)
+    save_resource(
+        category,
+        year,
+        branch,
+        sem,
+        subject,
+        message.document.file_id,
+        message.document.file_name
+    )
 
     await message.reply_text(
-        f"✅ 𝘚𝘢𝘷𝘦𝘥 𝘚𝘶𝘤𝘤𝘦𝘴𝘴𝘧𝘶𝘭𝘭𝘺\n\n𝘒𝘦𝘺: {key}"
+        "✅ Saved Successfully"
     )
+
 
 @Client.on_message(
     filters.command("done") &
@@ -72,12 +69,12 @@ async def save(_, message):
 async def done(_, message):
 
     if message.from_user.id in temp:
-
         del temp[message.from_user.id]
 
     await message.reply_text(
-        "✅ 𝘜𝘱𝘭𝘰𝘢𝘥 𝘤𝘰𝘮𝘱𝘭𝘦𝘵𝘦𝘥"
+        "✅ Upload Completed"
     )
+
 
 @Client.on_message(
     filters.command("delete") &
@@ -88,30 +85,23 @@ async def delete_file(_, message):
     try:
         _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
 
-        key = f"{category}_{year}_{branch}_{sem}_{subject.lower()}"
-
-        with open("storage.json") as f:
-            data = json.load(f)
-
-        if key not in data:
-            await message.reply_text(
-                "⚠️ 𝘍𝘪𝘭𝘦 𝘯𝘰𝘵 𝘧𝘰𝘶𝘯𝘥"
-            )
-            return
-
-        del data[key]
-
-        with open("storage.json", "w") as f:
-            json.dump(data, f, indent=4)
+        delete_resource(
+            category,
+            year,
+            branch,
+            sem,
+            subject
+        )
 
         await message.reply_text(
-            f"🗑 𝘋𝘦𝘭𝘦𝘵𝘦𝘥\n\n{key}"
+            "🗑 Deleted Successfully"
         )
 
     except:
         await message.reply_text(
-            "𝘜𝘴𝘢𝘨𝘦:\n/delete notes 2024 cse sem1 gymat101"
+            "Usage:\n/delete notes 2024 cse sem1 gymat101"
         )
+
 
 @Client.on_message(
     filters.command("list") &
@@ -119,27 +109,26 @@ async def delete_file(_, message):
 )
 async def list_files(_, message):
 
-    try:
-        with open("storage.json") as f:
-            data = json.load(f)
+    data = list_keys()
 
-        if not data:
-            await message.reply_text(
-                "📂 𝘕𝘰 𝘧𝘪𝘭𝘦𝘴 𝘶𝘱𝘭𝘰𝘢𝘥𝘦𝘥"
-            )
-            return
-
-        text = "📚 𝘜𝘱𝘭𝘰𝘢𝘥𝘦𝘥 𝘍𝘪𝘭𝘦𝘴:\n\n"
-
-        for key in data:
-            text += f"• {key}\n"
-
-        await message.reply_text(text)
-
-    except:
+    if not data:
         await message.reply_text(
-            "⚠️ 𝘌𝘳𝘳𝘰𝘳 𝘳𝘦𝘢𝘥𝘪𝘯𝘨 𝘴𝘵𝘰𝘳𝘢𝘨𝘦"
+            "📂 No Files Uploaded"
         )
+        return
+
+    text = "📚 Uploaded Files:\n\n"
+
+    for row in data:
+
+        category, year, branch, sem, subject = row
+
+        text += (
+            f"• {category}_{year}_{branch}_{sem}_{subject}\n"
+        )
+
+    await message.reply_text(text)
+
 
 @Client.on_message(
     filters.command("stats") &
@@ -147,19 +136,8 @@ async def list_files(_, message):
 )
 async def stats(_, message):
 
-    try:
-        with open("storage.json") as f:
-            data = json.load(f)
-
-    except:
-        data = {}
-
-    total = sum(len(v) for v in data.values())
+    total = total_resources()
 
     await message.reply_text(
-        f"📊 𝘛𝘰𝘵𝘢𝘭 𝘳𝘦𝘴𝘰𝘶𝘳𝘤𝘦𝘴: {total}"
-    )
-
-    await message.reply_text(
-        f"📊 𝘛𝘰𝘵𝘢𝘭 𝘔𝘢𝘵𝘦𝘳𝘪𝘢𝘭𝘴: {len(data)}"
+        f"📊 Total Resources: {total}"
     )
