@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
 from config import ADMINS
+from database.models import add_request
 
 
 @Client.on_callback_query(
@@ -18,6 +19,14 @@ async def request_resource(_, query):
     subject = parts[5]
 
     user = query.from_user
+
+    # SAVE REQUEST TO DB
+    await add_request(
+        category,
+        branch,
+        semester,
+        subject
+    )
 
     text = (
         f"📩 Resource Request\n\n"
