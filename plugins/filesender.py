@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-import json
+from database.models import get_resources
 
 
 @Client.on_callback_query(
@@ -7,16 +7,28 @@ import json
 )
 async def send_resource(_, query):
 
-    key = query.data.lower()
-
     try:
-        with open("storage.json") as f:
-            data = json.load(f)
-
+        await query.answer()
     except:
-        data = {}
+        pass
 
-    if key not in data:
+    parts = query.data.split("_")
+
+    category = parts[0]
+    year = parts[1]
+    branch = parts[2]
+    semester = parts[3]
+    subject = parts[4]
+
+    files = get_resources(
+        category,
+        year,
+        branch,
+        semester,
+        subject
+    )
+
+    if not files:
 
         await query.answer(
             "⚠️ 𝘙𝘦𝘴𝘰𝘶𝘳𝘤𝘦 𝘯𝘰𝘵 𝘶𝘱𝘭𝘰𝘢𝘥𝘦𝘥 𝘺𝘦𝘵",
@@ -24,12 +36,10 @@ async def send_resource(_, query):
         )
         return
 
-    files = data[key]
-
-    for file in files:
+    for file_id, file_name in files:
 
         await query.message.reply_document(
-            file["id"]
+            file_id
         )
 
     await query.answer()
