@@ -22,7 +22,7 @@ START_TEXT = """
 <b>𝘊𝘭𝘪𝘤𝘬 👉 /help</b>
 
 𝘊𝘩𝘰𝘰𝘴𝘦 𝘢𝘯 𝘰𝘱𝘵𝘪𝘰𝘯 𝘣𝘦𝘭𝘰𝘸 👇
-""""
+"""
 
 
 START_BUTTONS = InlineKeyboardMarkup([
