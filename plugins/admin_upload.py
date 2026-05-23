@@ -1,6 +1,6 @@
 from pyrogram import Client, filters
 from config import ADMINS
-from database.db import (
+from database.models import (
     save_resource,
     delete_resource,
     list_keys,
