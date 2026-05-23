@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from database.models import add_user
+from config import LOG_CHANNEL
 
 START_TEXT = """
 🎓 <b>𝘞𝘦𝘭𝘤𝘰𝘮𝘦 𝘵𝘰 KTU 𝘚𝘵𝘶𝘥𝘺 𝘉𝘰𝘵</b>
@@ -34,6 +35,13 @@ async def start(client, message):
 
     # Save user to database
     await add_user(user_id)
+
+    await client.send_message(
+        LOG_CHANNEL,
+        f"#NewUser\n\n"
+        f"ID - {message.from_user.id}\n"
+        f"Name - {message.from_user.first_name}"
+    )
 
     await message.reply_photo(
         photo="https://pic-link-bot.lovable.app/i/telegram-1779366829596-64036ff9.jpg",
