@@ -1,6 +1,5 @@
 from pyrogram import Client, filters
 from config import ADMINS
-from database.models import add_request
 
 
 @Client.on_callback_query(
@@ -10,41 +9,51 @@ from database.models import add_request
 )
 async def request_resource(_, query):
 
-    parts = query.data.split("_", 5)
+    parts = query.data.split("_")
+
+    if len(parts) < 6:
+
+        await query.answer(
+            "Invalid request data.",
+            show_alert=True
+        )
+
+        return
 
     category = parts[1]
     year = parts[2]
     branch = parts[3]
     semester = parts[4]
-    subject = parts[5]
+    subject = "_".join(parts[5:])
 
     user = query.from_user
 
-    # SAVE REQUEST TO DB
-    await add_request(
-        category,
-        branch,
-        semester,
-        subject
-    )
-
     text = (
+
         f"📩 Resource Request\n\n"
+
         f"👤 User: {user.first_name}\n"
         f"🆔 ID: {user.id}\n\n"
-        f"Category: {category}\n"
-        f"Scheme: {year}\n"
-        f"Branch: {branch}\n"
-        f"Semester: {semester}\n"
-        f"Subject: {subject}"
+
+        f"📂 Category: {category}\n"
+        f"📘 Scheme: {year}\n"
+        f"🏫 Branch: {branch.upper()}\n"
+        f"📖 Semester: {semester.upper()}\n"
+        f"📚 Subject: {subject.upper()}"
     )
 
     for admin in ADMINS:
 
-        await _.send_message(
-            admin,
-            text
-        )
+        try:
+
+            await _.send_message(
+                admin,
+                text
+            )
+
+        except Exception as e:
+
+            print(e)
 
     await query.answer(
         "✅ Request sent to admin!",
