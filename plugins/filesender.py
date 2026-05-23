@@ -28,7 +28,7 @@ async def send_resource(_, query):
         subject
     )
 
-    if not files:
+    if len(files) == 0:
 
         await query.answer(
             "⚠️ 𝘙𝘦𝘴𝘰𝘶𝘳𝘤𝘦 𝘯𝘰𝘵 𝘶𝘱𝘭𝘰𝘢𝘥𝘦𝘥 𝘺𝘦𝘵",
@@ -36,10 +36,8 @@ async def send_resource(_, query):
         )
         return
 
-    for file_id, file_name in files:
+    for row in files:
 
         await query.message.reply_document(
-            file_id
+            row["file_id"]
         )
-
-    await query.answer()
