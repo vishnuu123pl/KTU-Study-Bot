@@ -133,3 +133,28 @@ async def get_users():
         )
 
         return [row["user_id"] for row in rows]
+
+async def add_request(
+    category,
+    branch,
+    semester,
+    subject
+):
+
+    async with db.pool.acquire() as conn:
+
+        await conn.execute(
+            """
+            INSERT INTO requests(
+                category,
+                branch,
+                semester,
+                subject
+            )
+            VALUES($1,$2,$3,$4)
+            """,
+            category,
+            branch,
+            semester,
+            subject
+        )
