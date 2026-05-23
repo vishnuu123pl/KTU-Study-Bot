@@ -1,4 +1,4 @@
-from database.db import pool
+from database.db import db
 
 
 async def add_user(user_id):
