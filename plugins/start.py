@@ -43,8 +43,8 @@ START_BUTTONS = InlineKeyboardMarkup([
 
     [
         InlineKeyboardButton(
-            "💻 Source Code",
-            url="https://github.com/vishnuu123pl/KTU-Study-Bot-V3"
+            "📈 Trending Requests",
+            callback_data="top_requests"
         )
     ]
 ])
