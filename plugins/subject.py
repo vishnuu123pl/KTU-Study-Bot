@@ -1,5 +1,8 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram.types import (
+    InlineKeyboardMarkup,
+    InlineKeyboardButton
+)
 from data import DATA
 
 
@@ -15,7 +18,9 @@ async def subject(_, query):
     except:
         pass
 
-    _, branch, sem, year, cat = query.data.split("_", 4)
+    _, branch, sem, year, cat = (
+        query.data.split("_", 4)
+    )
 
     subjects = DATA.get(
         branch,
@@ -38,19 +43,37 @@ async def subject(_, query):
 
     for idx, sub in enumerate(subjects):
 
-        code = sub.split("|")[0].strip()
+        parts = sub.split("|")
+
+        code = parts[0].strip()
+
+        title = (
+            parts[1].strip()
+            if len(parts) > 1
+            else ""
+        )
 
         rows.append([
             InlineKeyboardButton(
-                f"📘 {code.upper()}",
-                callback_data=f"res_{branch}_{sem}_{year}_{cat}_{idx}"
+                f"📘 {code.upper()} • {title[:35]}",
+                callback_data=(
+                    f"res_{branch}_"
+                    f"{sem}_"
+                    f"{year}_"
+                    f"{cat}_"
+                    f"{idx}"
+                )
             )
         ])
 
     rows.append([
         InlineKeyboardButton(
             "⬅ 𝘉𝘢𝘤𝘬",
-            callback_data=f"sem{sem.replace('sem','')}_{year}_{cat}"
+            callback_data=(
+                f"sem{sem.replace('sem','')}_"
+                f"{year}_"
+                f"{cat}"
+            )
         )
     ])
 
@@ -61,7 +84,10 @@ async def subject(_, query):
             f"<b>{sem.upper()}</b>\n"
             f"📚 <b>{year} Scheme</b>\n\n"
             f"Choose a subject 👇",
-            reply_markup=InlineKeyboardMarkup(rows)
+
+            reply_markup=InlineKeyboardMarkup(
+                rows
+            )
         )
 
     except:
