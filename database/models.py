@@ -120,3 +120,11 @@ def total_resources():
     """)
 
     return cursor.fetchone()[0]
+
+def get_users():
+
+    cursor.execute(
+        "SELECT user_id FROM users"
+    )
+
+    return [row[0] for row in cursor.fetchall()]
