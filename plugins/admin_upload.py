@@ -38,7 +38,8 @@ async def upload(_, message):
 
 @Client.on_message(
     filters.text &
-    filters.user(ADMINS)
+    filters.user(ADMINS) &
+    ~filters.command(["start", "upload", "delete", "list", "stats", "done", "reply", "admin", "search", "broadcast"])
 )
 async def save_video(_, message):
 
