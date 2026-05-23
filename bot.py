@@ -1,7 +1,22 @@
 from pyrogram import Client, idle
+from pyrogram import utils as pyroutils
 from config import API_ID, API_HASH, BOT_TOKEN, ADMINS
 from database.db import init_db
 import asyncio
+import logging
+
+
+# asyncio warning fix
+logging.getLogger(
+    "asyncio"
+).setLevel(
+    logging.CRITICAL - 1
+)
+
+# Pyrogram peer id fix
+pyroutils.MIN_CHAT_ID = -999999999999
+pyroutils.MIN_CHANNEL_ID = -100999999999999
+
 
 app = Client(
     "KTUStudyBot",
@@ -10,6 +25,7 @@ app = Client(
     bot_token=BOT_TOKEN,
     plugins=dict(root="plugins")
 )
+
 
 async def main():
 
@@ -20,15 +36,21 @@ async def main():
     print("✅ Bot Started Successfully")
 
     for admin in ADMINS:
+
         try:
+
             await app.send_message(
                 admin,
                 "🔄 Bot Restarted Successfully"
             )
+
         except Exception as e:
+
             print(e)
 
     await idle()
 
+
 if __name__ == "__main__":
+
     asyncio.run(main())
