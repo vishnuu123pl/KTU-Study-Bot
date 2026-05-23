@@ -13,7 +13,7 @@ app = Client(
 
 async def main():
 
-    init_db()
+    await init_db()
 
     await app.start()
 
