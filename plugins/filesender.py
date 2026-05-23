@@ -2,6 +2,7 @@ from pyrogram import Client, filters
 from database.models import get_resources
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
+
 @Client.on_callback_query(
     filters.regex(r"^(notes|pyq|model|video)_(.+)$")
 )
@@ -38,22 +39,36 @@ async def send_resource(_, query):
                         "📩 Request Resource",
                         callback_data=f"request_{category}_{year}_{branch}_{semester}_{subject}"
                     )
-               ]
+                ]
             ])
         )
 
         return
+
+    # Header message before files
+    await query.message.reply_text(
+        f"📚 <b>{subject.upper()}</b>\n\n"
+        f"📂 Category: {category.upper()}\n"
+        f"🏫 Branch: {branch.upper()}\n"
+        f"📖 Semester: {semester.upper()}\n\n"
+        f"Files below 👇"
+    )
 
     for row in files:
 
         if category == "video":
 
             await query.message.reply_text(
-                f"🎥 Video Resource:\n\n{row['file_id']}"
+                f"🎥 <b>{subject.upper()} Video Resource</b>\n\n"
+                f"{row['file_id']}"
             )
 
         else:
 
             await query.message.reply_document(
-                row["file_id"]
+                row["file_id"],
+                caption=(
+                    f"📚 {subject.upper()}\n"
+                    f"📂 {category.upper()}"
+                )
             )
