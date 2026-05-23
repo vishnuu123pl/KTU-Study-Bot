@@ -134,6 +134,7 @@ async def get_users():
 
         return [row["user_id"] for row in rows]
 
+
 async def add_request(
     category,
     branch,
@@ -159,6 +160,7 @@ async def add_request(
             subject
         )
 
+
 async def top_requests():
 
     async with db.pool.acquire() as conn:
@@ -170,4 +172,18 @@ async def top_requests():
         GROUP BY subject
         ORDER BY total DESC
         LIMIT 10
+        """)
+
+
+async def most_requested():
+
+    async with db.pool.acquire() as conn:
+
+        return await conn.fetchrow("""
+        SELECT subject,
+        COUNT(*) AS total
+        FROM requests
+        GROUP BY subject
+        ORDER BY total DESC
+        LIMIT 1
         """)
