@@ -85,7 +85,7 @@ async def delete_file(_, message):
     try:
         _, category, year, branch, sem, subject = message.text.split(maxsplit=5)
 
-        delete_resource(
+        await delete_resource(
             category,
             year,
             branch,
