@@ -13,7 +13,6 @@ app = Client(
 
 async def main():
 
-    # Initialize Database
     init_db()
 
     await app.start()
