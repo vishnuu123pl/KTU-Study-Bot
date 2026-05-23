@@ -47,7 +47,7 @@ async def save(_, message):
 
     category, year, branch, sem, subject = temp[message.from_user.id]
 
-    save_resource(
+    await save_resource(
         category,
         year,
         branch,
