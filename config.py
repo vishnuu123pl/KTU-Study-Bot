@@ -7,8 +7,12 @@ API_ID = int(os.getenv("API_ID", "0"))
 API_HASH = os.getenv("API_HASH", "")
 BOT_TOKEN = os.getenv("BOT_TOKEN", "")
 ADMINS = list(map(int, os.getenv("ADMINS", "7412083181").split())) #replace with your TG user id
-LOG_CHANNEL = int( os.getenv("LOG_CHANNEL, "-1003960130087"))
-
+LOG_CHANNEL = int(
+    os.getenv(
+        "LOG_CHANNEL",
+        "-1003960130087"
+    )
+)
 # Validate on startup
 if not API_ID or API_ID == 0:
     raise ValueError("❌ API_ID is missing or invalid in environment variables")
