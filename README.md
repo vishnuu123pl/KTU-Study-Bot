@@ -541,6 +541,22 @@ Admin: /done
 Bot: ✅ Session ended. 2 files uploaded.
 ```
 
+### 📋 Admin Commands Quick Reference
+
+| Command | Description | Example |
+|---|---|---|
+| `/admin` | Open the admin help panel | `/admin` |
+| `/upload <category> <year> <branch> <sem> <subject>` | Start an upload session, then send PDF files | `/upload notes 2024 cse sem1 maths` |
+| `/done` | End the current upload session | `/done` |
+| `/delete <category> <year> <branch> <sem> <subject>` | Delete a specific resource from the database | `/delete pyq 2024 ece sem3 signals` |
+| `/list` | List all uploaded resource keys | `/list` |
+| `/stats` | View total registered users and resource count | `/stats` |
+| `/topreq` | View top 10 most requested subjects (analytics) | `/topreq` |
+| `/broadcast <message>` | Send a message to all registered users | `/broadcast New materials added!` |
+
+> **Upload categories:** `notes` · `pyq` · `model` · `video`
+> For `video` category, send a URL text instead of a file after starting the session.
+
 ---
 
 ## 📱 User Features
@@ -587,6 +603,41 @@ Bot: ✅ Session ended. 2 files uploaded.
 2. See top 10 most requested subjects
 3. Helps you know what others are looking for
 ```
+
+### 📋 User Commands Quick Reference
+
+| Command | Description | Example |
+|---|---|---|
+| `/start` | Start the bot and open the main menu | `/start` |
+| `/search <query>` | Search for a subject by name or code | `/search data structures` |
+| `/help` | Show the help guide | `/help` |
+
+### 🗺️ Interactive Menu Navigation
+
+```
+/start
+  └── 📚 Get Notes / PYQ
+        └── Select Scheme  (2019 / 2024)
+              └── Select Semester  (1 – 8)
+                    └── Select Branch  (CSE / ECE / EEE / ME / Civil / ICE)
+                          └── Select Subject
+                                └── Choose Resource Type
+                                      ├── 📚 Notes
+                                      ├── 📝 Previous Year Questions (PYQ)
+                                      ├── 📖 Model Papers
+                                      └── 🎥 Video Resources
+```
+
+### 🎯 Features Available to Users
+
+| Feature | How to Access |
+|---|---|
+| 📚 Get study materials | Main menu → Get Notes / PYQ |
+| 🔎 Search subject | `/search <name or code>` |
+| 📩 Request missing material | Main menu → Suggest Resource |
+| 📈 View trending requests | Main menu → Trending |
+| ℹ️ About the bot | Main menu → About |
+| ↩️ Navigate back | Back buttons at every step |
 
 ---
 
